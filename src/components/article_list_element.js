@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react'
+import CommentList from './comment_list'
 
 export default class ArticleListElement extends PureComponent {
     render () {
-        console.log('Article render')
         const { article, isOpen } = this.props
 
         return  <li>
@@ -10,7 +10,8 @@ export default class ArticleListElement extends PureComponent {
                     <button onClick = {this.handleClick}>
                         {isOpen ? 'close' : 'open'}
                     </button>
-                    {this.body}
+                    {this.body}                  
+                    <CommentList comments = {article.comments} />
                 </li>
     }
 
@@ -19,8 +20,9 @@ export default class ArticleListElement extends PureComponent {
 
         if (!isOpen) return null
 
-        return <p>{article.body}</p>
+        return <p>{article.text}</p>
     }
 
-    handleClick = () => this.props.toggleOpen(this.props.article.id)
+    handleClick = () =>
+        this.props.toggleOpen(this.props.article.id)
 }

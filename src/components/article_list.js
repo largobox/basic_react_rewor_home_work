@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import ArticleListelement from './article_list_element'
+import ArticleListElement from './article_list_element'
 import accordion from '../decorators/accordion'
 
 class ArticleList extends Component {
@@ -9,7 +9,7 @@ class ArticleList extends Component {
 
     get articles () {
         return this.props.articles.map( article => 
-                    <ArticleListelement key        = {article.id}
+                    <ArticleListElement key        = {article.id}
                                         article    = {article}
                                         isOpen     = {this.props.openItemId === article.id}
                                         toggleOpen = {this.props.toggleOpenItem}
