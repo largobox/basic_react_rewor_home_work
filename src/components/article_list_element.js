@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react'
 import CommentList from './comment_list'
+import { connect } from 'react-redux'
+import { deleteArticle } from '../ac'
 
-export default class ArticleListElement extends PureComponent {
+class ArticleListElement extends PureComponent {
     render () {
         const { article, isOpen } = this.props
 
@@ -10,6 +12,7 @@ export default class ArticleListElement extends PureComponent {
                     <button onClick = {this.handleClick}>
                         {isOpen ? 'close' : 'open'}
                     </button>
+                    <button onClick= {this.handleDelete}>delete</button>
                     {this.body}                  
                     <CommentList comments = {article.comments} />
                 </li>
@@ -25,4 +28,10 @@ export default class ArticleListElement extends PureComponent {
 
     handleClick = () =>
         this.props.toggleOpen(this.props.article.id)
+
+    handleDelete = () => {
+        this.props.deleteArticle(this.props.article.id) 
+    }
 }
+
+export default connect(null, { deleteArticle })(ArticleListElement)
