@@ -14,7 +14,7 @@ class ArticleListElement extends PureComponent {
                     </button>
                     <button onClick= {this.handleDelete}>delete</button>
                     {this.body}                  
-                    <CommentList comments = {article.comments} />
+                    <CommentList article = {article} />
                 </li>
     }
 
@@ -26,8 +26,9 @@ class ArticleListElement extends PureComponent {
         return <p>{article.text}</p>
     }
 
-    handleClick = () =>
+    handleClick = () => {
         this.props.toggleOpen(this.props.article.id)
+    }
 
     handleDelete = () => {
         this.props.deleteArticle(this.props.article.id) 
