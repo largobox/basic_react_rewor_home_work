@@ -1,13 +1,19 @@
 import React, { Component } from 'react'
 import ArticleListElement from './article_list_element'
+import Loader from './common/loader'
 import accordion from '../decorators/accordion'
 import { connect } from 'react-redux'
-import { filteredArticlesSelector } from '../selectors'
+import { filteredArticlesSelector, articlesLoadingSelector, articlesLoadedSelector } from '../selectors'
+import { loadAllArticles } from '../ac'
 
 class ArticleList extends Component {
     render () {
-        console.log('ArticleList RENDER')
+        if (this.props.loading) return <Loader />
         return <ul>{this.articles}</ul>
+    }
+
+    componentDidMount () {
+        this.props.fetchData && !this.props.loaded && this.props.fetchData()
     }
 
     get articles () {
@@ -21,11 +27,10 @@ class ArticleList extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    console.log('ArticleList CONNECT')
-    return {
-        articles: filteredArticlesSelector(state)
-    }
-}
+const mapStateToProps = (state) => ({
+    articles: filteredArticlesSelector(state),
+    loading: articlesLoadingSelector(state),
+    loaded: articlesLoadedSelector(state)
+})
 
-export default connect(mapStateToProps, {})(accordion(ArticleList))
+export default connect(mapStateToProps, { fetchData: loadAllArticles })(accordion(ArticleList))

@@ -1,9 +1,16 @@
 import React, { PureComponent } from 'react'
 import CommentList from './comment_list'
+import Loader from './common/loader'
 import { connect } from 'react-redux'
-import { deleteArticle } from '../ac'
+import { deleteArticle, loadArticle } from '../ac'
 
 class ArticleListElement extends PureComponent {
+    componentDidUpdate (oldProps) {
+        const { isOpen, loadArticle, article } = this.props
+
+        if (!oldProps.isOpen && isOpen && !article.text) loadArticle(article.id)
+    }
+
     render () {
         const { article, isOpen } = this.props
 
@@ -22,6 +29,7 @@ class ArticleListElement extends PureComponent {
         const { isOpen, article } = this.props
 
         if (!isOpen) return null
+        if (article.loading) return <Loader />
 
         return <p>{article.text}</p>
     }
@@ -35,4 +43,4 @@ class ArticleListElement extends PureComponent {
     }
 }
 
-export default connect(null, { deleteArticle })(ArticleListElement)
+export default connect(null, { deleteArticle, loadArticle })(ArticleListElement)
